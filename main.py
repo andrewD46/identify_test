@@ -1,5 +1,5 @@
 import click
-from helpers.functions import get_df, df_processing
+from helpers.FileProcessor import FileProcessor
 from configs import config
 
 
@@ -7,12 +7,12 @@ from configs import config
 @click.argument('files', nargs=-1, type=click.Path())
 def main(files: list) -> bool:
     config.logger.info(f'Files processing...')
-    df = get_df(files)
-    result = df_processing(df)
+    df_processor = FileProcessor(files=files)
+    result = df_processor.df_processing()
 
     config.logger.info('Results:')
     for rows in result:
-        config.logger.info(f"{rows['filename']}: {rows['Timestamp']}, {rows['Full_name']}, {rows['Passport_number']}, {rows['Flight_ticket']}")
+        config.logger.info(f"{rows['file_name']}: {rows['Timestamp']}, {rows['Full_name']}, {rows['Passport_number']}, {rows['Flight_ticket']}")
     return True
 
 
